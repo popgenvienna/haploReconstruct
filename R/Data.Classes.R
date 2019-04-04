@@ -112,6 +112,8 @@ setClass("SNP_time_series",
 #' windows are included.
 #' @slot transf Boolean indicating if time series data was sqrt transformed
 #' prior to clustering.
+#' @slot arcsine Boolean indicating if time series data was arcsine transformed
+#' prior to clustering.
 #' @slot scaleSNP Boolean indicating if time series data was scaled (mean=0, var=1)
 #' for each SNP prior to clustering.
 #' @slot pos.cor Boolean indicating if negative correletions between time series between
@@ -147,6 +149,7 @@ setClass("hbr",
                         single.win="logical",
                         
                         transf="logical",
+                        arcsine="logical",
                         scaleSNP="logical",
                         pos.cor="logical",
                         

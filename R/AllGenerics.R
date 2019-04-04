@@ -23,7 +23,8 @@ setGeneric("plot_hbr_freq",
            function(object, hbr_id=1, replicate, timepoint, window=1, cols=NULL, add=F
                     , sumstat="mean", cex=0.7
                     , xlab="Genomic position [Mb]", ylab="Marker frequency", xlim=NULL
-                    , ylim=c(0,1), pch=20, lwd=2) standardGeneric("plot_hbr_freq"))
+                    , ylim=c(0,1), pch=20, lwd=2
+                    , xaxt=NULL, yaxt=NULL) standardGeneric("plot_hbr_freq"))
 setGeneric("inspect_window", function(object, window, colCluster=T) standardGeneric("inspect_window"))
 setGeneric("inspect_window_PCA", function(object, window) standardGeneric("inspect_window_PCA"))
 setGeneric("inspect_window_avLink", 

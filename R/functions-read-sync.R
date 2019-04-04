@@ -36,6 +36,12 @@
 #' will be encoded as NA (default=15).
 #' @param header logical value specifying whether a header is present in the provided 
 #' sync file.
+#' @param polaRise numberical vector specifying polarisation of SNPs based on the rising allele
+#' based on the mean frequency change between the given column pairs, e.g. list(c(1,4),c(5,8),c(9,12))
+#' the mean frequency change is calclulated between the mean frequency change from cloumn 1 to 4
+#' 5 to 8 and 9 to 12 (column count starting from the first library provided). 
+#' Polarisation is performed so that the mean frequency change is positive.
+#' default: ignore and polarise on the minor allele in the base population
 #' @return a data.table with 6 plus N columns with; col 1: chr (chromosome), col 2: pos 
 #' (position on respective chromosome), col 3: ref (reference allele), col 4: minallele 
 #' (minor allele across all specified base populations), col 5: majallele (major allele 
@@ -46,7 +52,7 @@
 #' selected during experimental evolution}, \href{http://mbe.oxfordjournals.org/}{MBE}
 #'
 # file="/Volumes/cluster/Suse/haplotype_simul_number/MS03_haplo_reconstruct/01_simulate/test.sync"; base.pops=c(T,T,rep(F,5)); header=T; mincov=15
-sync_to_frequencies<-function(file, base.pops, header, mincov=15)
+sync_to_frequencies<-function(file, base.pops, header, mincov=15, polaRise=NULL)
 {
   cat("Reading in sync file.")
   x=validity_sync_to_frequencies(file, base.pops, header, mincov)
@@ -92,7 +98,40 @@ sync_to_frequencies<-function(file, base.pops, header, mincov=15)
   minfreqs[cov<mincov]=NA
   
   # all data: min allele freqs in base and hot
-  data.table(data.frame(chr=x[,1], pos=x[,2], ref=x[,3], minallele, majallele, minfreqs))
+  if (is.null(polaRise))
+  {
+    data.table(data.frame(chr=x[,1], pos=x[,2], ref=x[,3], minallele, majallele, minfreqs))
+  } else {
+
+    if (is.list(polaRise))
+    {
+      afcs <- foreach(repl=polaRise, .combine=rbind) %do% {
+        minfreqs[,1+repl][,2]-minfreqs[,1+repl][,1]
+      }
+      swap <- colMeans(afcs)<0
+
+      riseallele <- ifelse(swap, majallele, minallele)
+      fallallele <- ifelse(swap, minallele, majallele)
+
+      cnames <- colnames(minfreqs)
+      risefreqs <- foreach(lib=minfreqs, .combine=cbind) %do% {
+        ifelse(swap, 1-lib, lib)
+      }
+      colnames(risefreqs) <- cnames
+
+      data.table(data.frame(chr=x[,1], pos=x[,2], ref=x[,3], riseallele, fallallele, risefreqs))
+    } else {
+        stop("'ploaRise' has to be a list contaning number pairs, e.g. list(c(1,4),c(5,8),c(9,12))
+                 with the number pairs describing the column numbers of the replicates between which
+                 the allele frequency change (increase) is measured.")
+    }
+
+  }
+  
+  
+  
+  
+  
 }
 
 #' @importFrom utils read.table

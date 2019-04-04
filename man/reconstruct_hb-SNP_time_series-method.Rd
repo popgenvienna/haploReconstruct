@@ -9,7 +9,8 @@
 \usage{
 \S4method{reconstruct_hb}{SNP_time_series}(object, chrom, min.cl.size = 4,
   min.cl.cor = 0.8, min.inter = 2, single.win = F, transf = T,
-  scaleSNP = T, pos.cor = F, clusterM = "avLink", eps = 0.3)
+  arcsine = F, scaleSNP = T, pos.cor = F, clusterM = "avLink",
+  eps = 0.3)
 }
 \arguments{
 \item{object}{object of the class SNP_time_series data}
@@ -32,10 +33,16 @@ at least two windows and only markers being present in the intersection between 
 windows are included.}
 
 \item{transf}{boolean indicating if frequency data should be square root transformed 
-prior to calaculation pariwise correlations with Pearson's correlation coefficient.}
+prior to calaculation pariwise correlations with Pearson's correlation coefficient.
+(if transformations are chosen they will be done in the order: sqrt, arcsine, scale)}
+
+\item{arcsine}{boolean indicating if frequency data should be arcsine transformed 
+prior to calaculation pariwise correlations with Pearson's correlation coefficient.
+(if transformations are chosen they will be done in the order: sqrt, arcsine, scale)}
 
 \item{scaleSNP}{boolean indicating whether time series allele frequency data
-for each SNP should be scaled (scaling to a mean of zero and standard deviation of 1.}
+for each SNP should be scaled (scaling to a mean of zero and standard deviation of 1.
+(if transformations are chosen they will be done in the order: sqrt, arcsine, scale)}
 
 \item{pos.cor}{boolean indicating if negative correlations should be set to zero
 prior to clustering.}

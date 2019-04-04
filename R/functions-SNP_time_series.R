@@ -287,8 +287,12 @@ validity_reconstruct_hb=function(object, chrom, min.cl.size, min.cl.cor, min.int
   if (min.inter<2) warning("min.inter below 2 is not recommended.")
   if (min.inter>min.cl.size) stop("min.inter should be <= min.cl.size.")
   if (min.cl.cor<0.4) { 
-    stop("min.cl.cor below 0.4 should not be used.")
-  } else if (min.cl.cor<0.6) {warning("min.cl.cor below 0.6 is not recommended.")
+    #stop("min.cl.cor below 0.4 should not be used! ")
+    warning("min.cl.cor below 0.4 should not be used! 
+            Be aware that the used correlation threshold is extremely weak
+            and the chance is high that unrelateted things are clustered together!")
+  } else if (min.cl.cor<0.6) {
+    warning("min.cl.cor below 0.6 is not recommended.")
   }
 }  
 
