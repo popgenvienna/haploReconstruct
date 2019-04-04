@@ -10,7 +10,7 @@
 \S4method{plot_hbr_freq}{hbr}(object, hbr_id = 1, replicate, timepoint,
   window = 1, cols = NULL, add = F, sumstat = "mean", cex = 0.7,
   xlab = "Genomic position [Mb]", ylab = "Marker frequency", xlim = NULL,
-  ylim = c(0, 1), pch = 20, lwd = 2)
+  ylim = c(0, 1), pch = 20, lwd = 2, xaxt = NULL, yaxt = NULL)
 }
 \arguments{
 \item{object}{object of class \code{\link{hbr}} containing the results of reconstructed 
@@ -47,6 +47,10 @@ specify "mean" (the default) or "median".}
 \item{pch}{option to specify symbols to use when plotting points in the output plot}
 
 \item{lwd}{line width in the output plot}
+
+\item{xaxt}{print "n" if x-axis scale should not be printed}
+
+\item{yaxt}{print "n" if y-axis scale should not be printed}
 }
 \description{
 Plots frequencies of a reconstructed haplotype-block along the chromosome

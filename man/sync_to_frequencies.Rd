@@ -4,7 +4,7 @@
 \alias{sync_to_frequencies}
 \title{Data input from a sync file}
 \usage{
-sync_to_frequencies(file, base.pops, header, mincov = 15)
+sync_to_frequencies(file, base.pops, header, mincov = 15, polaRise = NULL)
 }
 \arguments{
 \item{file}{the name of the ".sync" file where the data should be read from. Sync 
@@ -26,6 +26,13 @@ sync file.}
 \item{mincov}{minimum coverage to calculate allele frequencies. If the sum of allele 
 counts of the minor and major allele are below this threshold the respective frequency 
 will be encoded as NA (default=15).}
+
+\item{polaRise}{numberical vector specifying polarisation of SNPs based on the rising allele
+based on the mean frequency change between the given column pairs, e.g. list(c(1,4),c(5,8),c(9,12))
+the mean frequency change is calclulated between the mean frequency change from cloumn 1 to 4
+5 to 8 and 9 to 12 (column count starting from the first library provided). 
+Polarisation is performed so that the mean frequency change is positive.
+default: ignore and polarise on the minor allele in the base population}
 }
 \value{
 a data.table with 6 plus N columns with; col 1: chr (chromosome), col 2: pos 

@@ -42,7 +42,13 @@ setMethod("show","hbr",
                 ,"\t a minimum cluster size of ", object@min.cl.size,"\n"
                 ,"\t an average correlation within a cluster of ", object@min.cl.cor,"\n")
             cat("Parameters for cluster elongation across windows:\n"
-                ,"\t a minimum number of ",object@min.inter,"intersecting markers\n\n")
+                ,"\t a minimum number of ",object@min.inter,"intersecting markers\n")
+            cat("single.win:",object@single.win,"\n")
+            cat("transf:",object@transf,"\n")
+            cat("arcsine:",object@arcsine,"\n")
+            cat("scaleSNP:",object@scaleSNP,"\n")
+            cat("pos.cor:",object@pos.cor,"\n\n")
+            
             
             cat("Summary of results:\n")
             cat("Window summary:\n"
@@ -577,6 +583,8 @@ setMethod("number_hbr", "hbr",
 #' @param ylim vector of the limits on the y-axis in the output plot
 #' @param pch option to specify symbols to use when plotting points in the output plot
 #' @param lwd line width in the output plot
+#' @param xaxt print "n" if x-axis scale should not be printed
+#' @param yaxt print "n" if y-axis scale should not be printed
 #' @seealso \code{\link{hbr}} \code{\link{ex_dat}} \code{\link{summary.hbr}} \code{\link{plot.hbr}} 
 #' \code{\link{plot_cluster_trajectories}} \code{\link{plot_marker_trajectories}}
 #' \code{\link{map}} \code{\link{rev_map}} \code{\link{markers}} 
@@ -587,7 +595,8 @@ setMethod("plot_hbr_freq", "hbr",
           function(object, hbr_id=1, replicate, timepoint, window=1, cols=NULL, add=F
                    , sumstat="mean", cex=0.7
                    , xlab="Genomic position [Mb]", ylab="Marker frequency", xlim=NULL
-                   , ylim=c(0,1), pch=20, lwd=2)
+                   , ylim=c(0,1), pch=20, lwd=2
+                   , xaxt=NULL, yaxt=NULL)
           {
             validity_plot_hbr_freq(object, hbr_id, replicate, timepoint, window
                                    , cols, add, cex
@@ -653,7 +662,7 @@ setMethod("plot_hbr_freq", "hbr",
             if (add){
               points(x,y,pch=pch,col=cols[1], cex=cex)
             } else {
-              plot(x,y,pch=pch,col=cols[1], xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, cex=cex)
+              plot(x,y,pch=pch,col=cols[1], xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, cex=cex, xaxt=xaxt, yaxt=yaxt)
               abline(h=(0:5)*0.2,lty=2,lwd=0.5)
             }
             if (length(libs)>1)

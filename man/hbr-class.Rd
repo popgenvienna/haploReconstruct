@@ -41,6 +41,9 @@ windows are included.}
 \item{\code{transf}}{Boolean indicating if time series data was sqrt transformed
 prior to clustering.}
 
+\item{\code{arcsine}}{Boolean indicating if time series data was arcsine transformed
+prior to clustering.}
+
 \item{\code{scaleSNP}}{Boolean indicating if time series data was scaled (mean=0, var=1)
 for each SNP prior to clustering.}
 

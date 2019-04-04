@@ -68,8 +68,13 @@ setMethod("show","SNP_time_series",
 #' windows are included. 
 #' @param transf boolean indicating if frequency data should be square root transformed 
 #' prior to calaculation pariwise correlations with Pearson's correlation coefficient.
+#' (if transformations are chosen they will be done in the order: sqrt, arcsine, scale)
+#' @param arcsine boolean indicating if frequency data should be arcsine transformed 
+#' prior to calaculation pariwise correlations with Pearson's correlation coefficient.
+#' (if transformations are chosen they will be done in the order: sqrt, arcsine, scale)
 #' @param scaleSNP boolean indicating whether time series allele frequency data
 #' for each SNP should be scaled (scaling to a mean of zero and standard deviation of 1.
+#' (if transformations are chosen they will be done in the order: sqrt, arcsine, scale)
 #' @param pos.cor boolean indicating if negative correlations should be set to zero
 #' prior to clustering.
 #' @param clusterM indicating the clustering method, choose from: "avLink" (average linkage clustering)
@@ -83,7 +88,7 @@ setMethod("show","SNP_time_series",
 #'
 setMethod("reconstruct_hb","SNP_time_series",
           function(object, chrom, min.cl.size=4, min.cl.cor=0.8, min.inter=2, single.win=F
-                   , transf=T, scaleSNP=T, pos.cor=F, clusterM="avLink", eps=0.3) {
+                   , transf=T, arcsine=F, scaleSNP=T, pos.cor=F, clusterM="avLink", eps=0.3) {
   
   validity_reconstruct_hb(object, chrom, min.cl.size, min.cl.cor, min.inter, single.win)          
   
@@ -121,8 +126,12 @@ setMethod("reconstruct_hb","SNP_time_series",
       colnames(a)=dsub.pos #set col names to genomic positions
       
       if (transf) {a=sqrt(a)}#; print("trans")}
+      #print(a[1,1])
+      if (arcsine) {a=asin(a)}#; print("asin")}
+      #print(a[1,1])
       if (scaleSNP) {a=scale(a)}#; print("scale")}
-
+      #print("--")
+      
       if(clusterM=="avLink")
       {
         #print("avLink")
@@ -175,7 +184,7 @@ setMethod("reconstruct_hb","SNP_time_series",
         , chromosome=chrom
         , min.cl.size=min.cl.size, min.cl.cor=min.cl.cor, min.inter=min.inter
         , single.win=single.win
-        , transf=transf, scaleSNP=scaleSNP, pos.cor=pos.cor
+        , transf=transf, arcsine=arcsine, scaleSNP=scaleSNP, pos.cor=pos.cor
         , cl.chr=cl.chr, cl.long.m=cl.long.m)
   } else # no clusters at all were reconstructed
   {
@@ -196,7 +205,7 @@ setMethod("reconstruct_hb","SNP_time_series",
         , chromosome=chrom
         , min.cl.size=min.cl.size, min.cl.cor=min.cl.cor, min.inter=min.inter
         , single.win=single.win
-        , transf=transf, scaleSNP=scaleSNP, pos.cor=pos.cor
+        , transf=transf, arcsine=arcsine, scaleSNP=scaleSNP, pos.cor=pos.cor
         , cl.chr=cl.chr, cl.long.m=list())
   }
   
